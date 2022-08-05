@@ -1,7 +1,8 @@
 # Backend AIC
 
 ## atentions amigos
-docker
+Apagar as migrations dentro de prisma
+- npx prisma migrate dev
 
 ## How to use this?
 - yarn install

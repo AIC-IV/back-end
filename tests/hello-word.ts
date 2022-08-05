@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import chai, { expect } from 'chai';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import chaiHttp from 'chai-http';
 import app from '../src/index';
 import 'mocha';

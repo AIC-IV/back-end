@@ -4,8 +4,8 @@ CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN', 'A_Gente');
 -- CreateTable
 CREATE TABLE "Users" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "bio" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "bio" TEXT NOT NULL DEFAULT E'',
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT E'USER',
@@ -13,6 +13,20 @@ CREATE TABLE "Users" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Report" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "description" TEXT NOT NULL DEFAULT E'',
+    "reportMotive" JSONB NOT NULL,
+    "result" TEXT NOT NULL DEFAULT E'',
+    "resolved" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Report_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -45,6 +59,7 @@ CREATE TABLE "Posts" (
     "usersId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
+    "postsId" INTEGER,
 
     CONSTRAINT "Posts_pkey" PRIMARY KEY ("id")
 );
@@ -83,6 +98,9 @@ CREATE TABLE "_chat_users" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Friends_user_id_friend_id_key" ON "Friends"("user_id", "friend_id");
 
 -- CreateIndex
@@ -101,6 +119,9 @@ CREATE UNIQUE INDEX "_chat_users_AB_unique" ON "_chat_users"("A", "B");
 CREATE INDEX "_chat_users_B_index" ON "_chat_users"("B");
 
 -- AddForeignKey
+ALTER TABLE "Report" ADD CONSTRAINT "Report_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Friends" ADD CONSTRAINT "Friends_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -111,6 +132,9 @@ ALTER TABLE "Games" ADD CONSTRAINT "Games_usersId_fkey" FOREIGN KEY ("usersId") 
 
 -- AddForeignKey
 ALTER TABLE "Posts" ADD CONSTRAINT "Posts_usersId_fkey" FOREIGN KEY ("usersId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Posts" ADD CONSTRAINT "Posts_postsId_fkey" FOREIGN KEY ("postsId") REFERENCES "Posts"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_usersId_fkey" FOREIGN KEY ("usersId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
