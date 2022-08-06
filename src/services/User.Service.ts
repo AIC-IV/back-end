@@ -39,9 +39,6 @@ export default {
   async getAll() {
     const users = await prisma.users.findMany({
       include: {
-        friendUserFriends: true,
-        userFriends: true,
-        playsGames: true,
         Reports: true,
       },
     });
@@ -82,70 +79,5 @@ export default {
     });
 
     return user;
-  },
-
-  async invite(fromId: number, toId: number) {
-    const fromUser = await prisma.users.findUnique({
-      where: {
-        id: fromId,
-      },
-    });
-
-    const toUser = await prisma.users.findUnique({
-      where: {
-        id: toId,
-      },
-    });
-
-    if (!fromUser || !toUser) {
-      throw new Error('User not found');
-    }
-
-    const invite = await prisma.friends.create({
-      data: {
-        user_id: fromId,
-        friend_id: toId,
-        status: false,
-      },
-    });
-
-    return invite;
-  },
-
-  async acceptInvite(fromId: number, toId: number) {
-    const fromUser = await prisma.users.findUnique({
-      where: {
-        id: fromId,
-      },
-    });
-
-    const toUser = await prisma.users.findUnique({
-      where: {
-        id: toId,
-      },
-    });
-
-    if (!fromUser || !toUser) {
-      throw new Error('User not found');
-    }
-    await prisma.friends.updateMany({
-      where: {
-        user_id: fromId,
-        friend_id: toId,
-      },
-      data: {
-        status: true,
-      },
-    });
-
-    const acceptinvite = await prisma.friends.create({
-      data: {
-        user_id: toId,
-        friend_id: fromId,
-        status: true,
-      },
-    });
-
-    return acceptinvite;
   },
 };
