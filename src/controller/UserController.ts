@@ -57,3 +57,13 @@ export async function findUserName(req: Request, res: Response) {
 
   return res.json(users);
 }
+
+export async function getUserByID(req: Request<{id: number}>, res: Response) {
+  const { id } = req.params;
+  try {
+    const user = await UserService.getById(Number(id));
+    return res.json(user);
+  } catch (error) {
+    return res.status(400).json({ message: error });
+  }
+}

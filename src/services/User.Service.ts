@@ -4,6 +4,7 @@ import prisma from '../database';
 import { User } from '../schema/User';
 
 export default {
+
   async getById(id: number) {
     const user = await prisma.users.findUnique({
       where: {
