@@ -81,4 +81,30 @@ export default {
 
     return user;
   },
+
+  async addPoints(id: number, points: number) {
+    const user = await prisma.users.update({
+      where: { id },
+      data: {
+        points: {
+          increment: points,
+        },
+      },
+    });
+
+    return user;
+  },
+
+  async removePoints(id: number, points: number) {
+    const user = await prisma.users.update({
+      where: { id },
+      data: {
+        points: {
+          decrement: points,
+        },
+      },
+    });
+
+    return user;
+  },
 };
