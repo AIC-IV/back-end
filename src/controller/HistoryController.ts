@@ -3,42 +3,67 @@ import { Request, Response } from 'express';
 import HistoryService from '../services/History.Service';
 import UserService from '../services/User.Service';
 
-
 export async function createHistory(req: Request, res: Response) {
-  const { userId, matchId, points, placement } = req.body;
-  const history = await HistoryService.createHistory(userId, matchId, points, placement);
-  await UserService.addPoints(userId, points);
-  return res.json(history);
+  const {
+    userId, matchId, points, placement,
+  } = req.body;
+  try {
+    const history = await HistoryService.createHistory(userId, matchId, points, placement);
+    await UserService.addPoints(userId, points);
+    return res.json(history).status(200);
+  } catch (error) {
+    return res.status(400).json({ message: error });
+  }
 }
 
 export async function getHistoryByID(req: Request, res: Response) {
-    const { id } = req.params;
-    const history = await HistoryService.getHistoryById(id);
-    return res.json(history);
+  const { id } = req.params;
+  try {
+    const history = await HistoryService.getHistoryById(Number(id));
+    return res.json(history).status(200);
+  } catch (error) {
+    return res.status(400).json({ message: error });
+  }
 }
 
 export async function getHistoryByUserID(req: Request, res: Response) {
-    const { userId } = req.params;
-    const history = await HistoryService.getHistoryByUserId(userId);
-    return res.json(history);
+  const { userId } = req.params;
+  try {
+    const history = await HistoryService.getHistoryByUserId(Number(userId));
+    return res.json(history).status(200);
+  } catch (error) {
+    return res.status(400).json({ message: error });
+  }
 }
 
 export async function getHistoryByMatchID(req: Request, res: Response) {
-    const { matchId } = req.params;
-    const history = await HistoryService.getHistoryByMatchId(matchId);
-    return res.json(history);
+  const { matchId } = req.params;
+  try {
+    const history = await HistoryService.getHistoryByMatchId(Number(matchId));
+    return res.json(history).status(200);
+  } catch (error) {
+    return res.status(400).json({ message: error });
+  }
 }
 
 export async function updateHistory(req: Request, res: Response) {
-    const { id } = req.params;
-    const { data } = req.body;
-    const history = await HistoryService.updateHistory(id,data);
-    return res.json(history);
+  const { id } = req.params;
+  const { data } = req.body;
+  try {
+    const history = await HistoryService.updateHistory(Number(id), data);
+    return res.json(history).status(200);
+  } catch (error) {
+    return res.status(400).json({ message: error });
+  }
 }
 
 export async function deleteHistory(req: Request, res: Response) {
-    const { id } = req.params;
-    const history = await HistoryService.deleteHistory(id);
+  const { id } = req.params;
+  try {
+    const history = await HistoryService.deleteHistory(Number(id));
     await UserService.removePoints(history.userId, history.points);
-    return res.json(history);
+    return res.json(history).status(200);
+  } catch (error) {
+    return res.status(400).json({ message: error });
+  }
 }

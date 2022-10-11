@@ -6,8 +6,8 @@ const router = Router();
 
 router.post('/', (MatchController.createMatch));
 
-router.get('/:id', MatchController.getMatchById);
+router.get('/id/:id', MatchController.getMatchById);
 
-router.get('/:name', MatchController.getMatchByName);
+router.get('/name/:name', MatchController.getMatchByName);
 
 export default router;

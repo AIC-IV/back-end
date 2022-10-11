@@ -8,12 +8,12 @@ router.post('/', HistoryController.createHistory);
 
 router.get('/id/:id', HistoryController.getHistoryByID);
 
-router.get('/userid/:userid', HistoryController.getHistoryByUserID);
+router.get('/userid/:userId', HistoryController.getHistoryByUserID);
 
-router.get('/matchid/:matchid', HistoryController.getHistoryByMatchID);
+router.get('/matchid/:matchId', HistoryController.getHistoryByMatchID);
 
 router.patch('/:id', HistoryController.updateHistory);
 
-router.delete('/:id', HistoryController.deletedUser);
+router.delete('/:id', HistoryController.deleteHistory);
 
 export default router;

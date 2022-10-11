@@ -43,7 +43,8 @@ model Users {
   bio         String @default("")
   email       String @unique
   password    String
-  totalPoints Int
+  photoId     Int    @default(0)
+  totalPoints Int    @default(0)
 
   role    Role     @default(USER)
   Reports Report[] @relation(name: "reports")

@@ -31,7 +31,7 @@ export default {
   },
   // - get history by UserID
   async getHistoryByUserId(userId:number) {
-    const history = await prisma.history.findUnique({
+    const history = await prisma.history.findMany({
       where: {
         userId,
       },
@@ -41,7 +41,7 @@ export default {
   },
   // - get history matchID
   async getHistoryByMatchId(matchId:number) {
-    const history = await prisma.history.findUnique({
+    const history = await prisma.history.findMany({
       where: {
         matchId,
       },

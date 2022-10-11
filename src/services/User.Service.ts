@@ -86,7 +86,7 @@ export default {
     const user = await prisma.users.update({
       where: { id },
       data: {
-        points: {
+        totalPoints: {
           increment: points,
         },
       },
@@ -99,7 +99,7 @@ export default {
     const user = await prisma.users.update({
       where: { id },
       data: {
-        points: {
+        totalPoints: {
           decrement: points,
         },
       },
