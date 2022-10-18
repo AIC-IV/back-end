@@ -1,12 +1,29 @@
 import { Request, Response } from 'express';
 
 import HistoryService from '../services/History.Service';
+import MatchService from '../services/Match.Service';
 import UserService from '../services/User.Service';
 
 export async function createHistory(req: Request, res: Response) {
   const {
     userId, matchId, points, placement,
   } = req.body;
+
+  if (await UserService.getById(userId) === null) {
+    return res.status(400).json({ message: 'User not found' });
+  }
+
+  const match = await HistoryService.getHistoryById(matchId);
+
+  if (match === null) {
+    return res.status(400).json({ message: 'Match not found' });
+  }
+
+  const historyStatus = await MatchService.getMatchByID(match.id);
+  if (historyStatus?.status === false) {
+    return res.status(400).json({ message: 'Not possible change a closed match' });
+  }
+
   try {
     const history = await HistoryService.createHistory(userId, matchId, points, placement);
     await UserService.addPoints(userId, points);
