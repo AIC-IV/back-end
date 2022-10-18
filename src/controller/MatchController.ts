@@ -4,6 +4,11 @@ import MatchService from '../services/Match.Service';
 
 export async function createMatch(req: Request<{matchName:string}>, res: Response) {
   const { matchName } = req.body;
+
+  if (((await MatchService.getMatchByName(matchName)).length) >= 1) {
+    return res.status(400).json({ message: 'Match with this name already exist!' });
+  }
+
   try {
     const match = await MatchService.createMatch(matchName);
     return res.json(match).status(200);
