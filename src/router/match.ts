@@ -10,4 +10,6 @@ router.get('/id/:id', MatchController.getMatchById);
 
 router.get('/name/:name', MatchController.getMatchByName);
 
+router.post('/update/:id', MatchController.updateMatchById);
+
 export default router;

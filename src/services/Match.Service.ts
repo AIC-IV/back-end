@@ -1,5 +1,5 @@
+import { Match } from '@prisma/client';
 import prisma from '../database';
-import { Match } from '../schema/Match';
 
 export default {
   async createMatch(name: string) {
@@ -35,4 +35,11 @@ export default {
     return match;
   },
 
+  async updateMatch(id: number, newDataMatch: Partial<Match>) {
+    const matchUpdated = await prisma.match.update({
+      where: { id },
+      data: newDataMatch,
+    });
+    return matchUpdated;
+  },
 };

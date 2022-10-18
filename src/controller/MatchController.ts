@@ -31,3 +31,14 @@ export async function getMatchByName(req: Request<{name:string}>, res: Response)
     return res.status(400).json({ message: error });
   }
 }
+
+export async function updateMatchById(req: Request, res: Response) {
+  const id = req.params;
+  const dataUpdate = req.body;
+  try {
+    const updatedMatch = await MatchService.updateMatch(Number(id.id), dataUpdate);
+    return res.json(updatedMatch).status(200);
+  } catch (error) {
+    return res.status(400).json({ message: error });
+  }
+}
