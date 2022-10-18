@@ -14,9 +14,12 @@ export async function createHistory(req: Request, res: Response) {
   }
 
   const match = await HistoryService.getHistoryById(matchId);
-
   if (match === null) {
     return res.status(400).json({ message: 'Match not found' });
+  }
+
+  if (await HistoryService.sameUserInMatch(match.id, userId)) {
+    return res.status(400).json({ message: 'User in the same match!' });
   }
 
   const historyStatus = await MatchService.getMatchByID(match.id);

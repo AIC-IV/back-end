@@ -49,6 +49,14 @@ export default {
     return history;
   },
 
+  async sameUserInMatch(matchId: number, userId: number) {
+    const allHistory = await this.getHistoryByMatchId(matchId);
+    if (allHistory) {
+      return allHistory.some((data) => data.userId === userId);
+    }
+    return false;
+  },
+
   async updateHistory(id: number, newDataHistory: Partial<History>) {
     const historyUpdate = await prisma.history.update({
       where: { id },
