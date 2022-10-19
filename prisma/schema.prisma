@@ -17,12 +17,34 @@ enum Role {
   A_Gente
 }
 
+// Partida (id, nome, tempo de conclusão)
+// Histórico (id partida, id usuário, pontos usuário, colocação)
+
+model History {
+  id        Int @id @default(autoincrement())
+  matchId   Int
+  userId    Int
+  points    Int
+  placement Int
+}
+
+model Match {
+  id     Int     @id @default(autoincrement())
+  name   String
+  status Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Users {
-  id       Int    @id @default(autoincrement())
-  username String
-  bio      String @default("")
-  email    String @unique
-  password String
+  id          Int    @id @default(autoincrement())
+  username    String
+  bio         String @default("")
+  email       String @unique
+  password    String
+  photoId     Int    @default(0)
+  totalPoints Int    @default(0)
 
   role    Role     @default(USER)
   Reports Report[] @relation(name: "reports")

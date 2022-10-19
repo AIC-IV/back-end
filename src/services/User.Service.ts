@@ -4,6 +4,7 @@ import prisma from '../database';
 import { User } from '../schema/User';
 
 export default {
+
   async getById(id: number) {
     const user = await prisma.users.findUnique({
       where: {
@@ -75,6 +76,32 @@ export default {
         username,
         email,
         password: hashedPassword,
+      },
+    });
+
+    return user;
+  },
+
+  async addPoints(id: number, points: number) {
+    const user = await prisma.users.update({
+      where: { id },
+      data: {
+        totalPoints: {
+          increment: points,
+        },
+      },
+    });
+
+    return user;
+  },
+
+  async removePoints(id: number, points: number) {
+    const user = await prisma.users.update({
+      where: { id },
+      data: {
+        totalPoints: {
+          decrement: points,
+        },
       },
     });
 
