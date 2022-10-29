@@ -13,7 +13,7 @@ export async function createHistory(req: Request, res: Response) {
     return res.status(400).json({ message: 'User not found' });
   }
 
-  const match = await HistoryService.getHistoryById(matchId);
+  const match = await MatchService.getMatchByID(matchId);
   if (match === null) {
     return res.status(400).json({ message: 'Match not found' });
   }
