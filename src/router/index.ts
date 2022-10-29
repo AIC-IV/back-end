@@ -5,6 +5,7 @@ import session from './session';
 import report from './report';
 import match from './match';
 import history from './history';
+import sort from './sort';
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.use('/session', session);
 router.use('/report', report);
 router.use('/match', match);
 router.use('/history', history);
+router.use('/sort', sort);
 
 export default router;
