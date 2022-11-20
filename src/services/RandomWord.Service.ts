@@ -4,6 +4,7 @@ import food from '../words/food';
 import objects from '../words/objects';
 import verbs from '../words/verbs';
 import professions from '../words/professions';
+import places from '../words/places';
 
 export default {
   async getListWords(category: string) {
@@ -18,6 +19,8 @@ export default {
         return shuffle(verbs).slice(0, 30);
       case 'profissoes':
         return shuffle(professions).slice(0, 30);
+      case 'lugares':
+        return shuffle(places).slice(0, 30);
       default:
         return 'Envie uma categoria';
     }
