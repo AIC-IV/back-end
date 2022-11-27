@@ -5,8 +5,8 @@ export default {
 
   async getRanking(operator: Prisma.SortOrder = 'desc', page = 1) {
     const users = await prisma.users.findMany({
-      skip: 10 * (page - 1),
-      take: 10,
+      skip: 100 * (page - 1),
+      take: 100,
       orderBy: [
         { totalPoints: `${operator}` },
       ],
