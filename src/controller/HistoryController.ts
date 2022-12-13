@@ -5,22 +5,23 @@ import MatchService from '../services/Match.Service';
 import UserService from '../services/User.Service';
 
 export async function createHistory(req: Request, res: Response) {
-  const {
-    userId, matchId, points, placement,
-  } = req.body;
 
-  if (await UserService.getById(userId) === null) {
-    return res.status(400).json({ message: 'User not found' });
-  }
+  const {results , matchId} = req.body;
 
-  const match = await MatchService.getMatchByID(matchId);
-  if (match === null) {
-    return res.status(400).json({ message: 'Match not found' });
-  }
+  results.forEach(async (result: any) => {
+    let { userId, points, placement } = result;
+    if (await UserService.getById(userId) === null) {
+      return res.status(400).json({ message: 'User not found' });
+    }
 
-  if (await HistoryService.sameUserInMatch(match.id, userId)) {
-    return res.status(400).json({ message: 'User in the same match!' });
-  }
+    const match = await MatchService.getMatchByID(matchId);
+    if (match === null) {
+      return res.status(400).json({ message: 'Match not found' });
+    }
+
+    if (await HistoryService.sameUserInMatch(match.id, userId)) {
+      return res.status(400).json({ message: 'User in the same match!' });
+    }
 
   const historyStatus = await MatchService.getMatchByID(match.id);
   if (historyStatus?.status === false) {
@@ -34,6 +35,7 @@ export async function createHistory(req: Request, res: Response) {
   } catch (error) {
     return res.status(400).json({ message: error });
   }
+});
 }
 
 export async function getHistoryByID(req: Request, res: Response) {
