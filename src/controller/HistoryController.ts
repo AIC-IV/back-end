@@ -5,7 +5,7 @@ import MatchService from '../services/Match.Service';
 import UserService from '../services/User.Service';
 
 
-function makeid(length: number) {
+async function makeid(length: number) {
   var result           = '';
   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
@@ -19,7 +19,7 @@ export async function createHistory(req: Request, res: Response) {
 
   const {results } = req.body;
 
-  const name = makeid(25);
+  const name = await makeid(25);
   
   const fullmatch = await MatchService.createMatch(name);
   console.log(fullmatch);
