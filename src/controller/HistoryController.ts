@@ -20,7 +20,8 @@ export async function createHistory(req: Request, res: Response) {
   const {results } = req.body;
 
 
-  const fullmatch: any = await MatchService.createMatch(makeid(25));
+  const fullmatch = await MatchService.createMatch(makeid(25));
+  console.log(fullmatch);
 
   results.forEach(async (result: any) => {
     let { userId, points, placement } = result;
