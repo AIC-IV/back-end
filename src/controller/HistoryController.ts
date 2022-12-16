@@ -4,9 +4,27 @@ import HistoryService from '../services/History.Service';
 import MatchService from '../services/Match.Service';
 import UserService from '../services/User.Service';
 
-export async function createHistory(req: Request, res: Response) {
 
-  const {results , matchId} = req.body;
+async function makeid(length: number) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  console.log(result);
+  return result;
+}
+export async function createHistory(req: Request, res: Response) {
+  console.log(req.body);
+  
+  const {results } = req.body;
+
+
+  const name = await makeid(25);
+  
+  const fullmatch = await MatchService.createMatch(name);
+  console.log(fullmatch);
 
   results.forEach(async (result: any) => {
     let { userId, points, placement } = result;
@@ -14,7 +32,7 @@ export async function createHistory(req: Request, res: Response) {
       return res.status(400).json({ message: 'User not found' });
     }
 
-    const match = await MatchService.getMatchByID(matchId);
+    const match = await MatchService.getMatchByID(fullmatch.id);
     if (match === null) {
       return res.status(400).json({ message: 'Match not found' });
     }
@@ -29,13 +47,14 @@ export async function createHistory(req: Request, res: Response) {
   }
 
   try {
-    const history = await HistoryService.createHistory(userId, matchId, points, placement);
+    await HistoryService.createHistory(userId, fullmatch.id, points, placement);
     await UserService.addPoints(userId, points);
-    return res.json(history).status(200);
+
   } catch (error) {
     return res.status(400).json({ message: error });
   }
 });
+  return res.status(200).json({ message: 'History created' });
 }
 
 export async function getHistoryByID(req: Request, res: Response) {
