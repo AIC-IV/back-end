@@ -3,21 +3,24 @@ import { Request, Response } from 'express';
 import HistoryService from '../services/History.Service';
 import MatchService from '../services/Match.Service';
 import UserService from '../services/User.Service';
+
+
+function makeid(length: number) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  console.log(result);
+  return result;
+}
 export async function createHistory(req: Request, res: Response) {
 
   const {results } = req.body;
 
-  function makeid(length: number) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
 
-  const fullmatch: any = MatchService.createMatch(makeid(25));
+  const fullmatch: any = await MatchService.createMatch(makeid(25));
 
   results.forEach(async (result: any) => {
     let { userId, points, placement } = result;
