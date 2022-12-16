@@ -16,8 +16,10 @@ async function makeid(length: number) {
   return result;
 }
 export async function createHistory(req: Request, res: Response) {
-
+  console.log(req.body);
+  
   const {results } = req.body;
+
 
   const name = await makeid(25);
   
