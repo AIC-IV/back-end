@@ -45,13 +45,14 @@ export async function createHistory(req: Request, res: Response) {
   }
 
   try {
-    const history = await HistoryService.createHistory(userId, fullmatch.id, points, placement);
+    await HistoryService.createHistory(userId, fullmatch.id, points, placement);
     await UserService.addPoints(userId, points);
-    return res.json(history).status(200);
+
   } catch (error) {
     return res.status(400).json({ message: error });
   }
 });
+  return res.status(200).json({ message: 'History created' });
 }
 
 export async function getHistoryByID(req: Request, res: Response) {
