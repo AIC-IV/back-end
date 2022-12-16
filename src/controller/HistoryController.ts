@@ -19,8 +19,9 @@ export async function createHistory(req: Request, res: Response) {
 
   const {results } = req.body;
 
-
-  const fullmatch = await MatchService.createMatch(makeid(25));
+  const name = makeid(25);
+  
+  const fullmatch = await MatchService.createMatch(name);
   console.log(fullmatch);
 
   results.forEach(async (result: any) => {
