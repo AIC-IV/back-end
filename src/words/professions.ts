@@ -34,6 +34,8 @@ const workers: string[] = [
   'Faxineira',
   'Programador',
   'Empresário',
-
+  'Médica',
+  'Pianista',
+  'Cantora'
 ];
 export default workers;
