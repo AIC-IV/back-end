@@ -2,7 +2,7 @@ import { Match } from '@prisma/client';
 import prisma from '../database';
 
 export default {
-  async createMatch(name: string) {
+  async createMatch(name: string){
     const match = await prisma.match.create({
       data: {
         name,
